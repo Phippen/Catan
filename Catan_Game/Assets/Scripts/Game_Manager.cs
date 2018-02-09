@@ -46,13 +46,13 @@ public class Game_Manager : MonoBehaviour
         // think of better way to make this less hideous then please do. But I thought
         // This was better than 59 lines of calling new Intersection
 
-        // 0 will represent neighbors that do not exist for costal cities
+        // 0 will represent neighbors that do not exist for coastal cities
         int[] neighbors = { 4, 0, 5, 5, 0, 6, 6, 0, 7, 0, 8, 1, 1, 9, 2, 2, 10, 3, 7, 11, 0, 12, 4, 13, 13, 5, 14, 14, 6, 15, 15, 7, 16, 22, 12, 23, 23, 13, 24, 24, 14, 25, 15, 15, 16, 16, 16, 27, 0, 28, 17, 17, 29, 18, 18, 30, 19, 19, 31, 20, 20, 32, 21, 21, 33, 0, 0, 22, 34, 34, 23, 35, 35, 24, 36, 36, 25, 37, 37, 26, 38, 38, 27, 0, 0, 34, 44, 44, 35, 45, 45, 36, 46, 46, 37, 47, 47, 38, 0, 0, 44, 52, 52, 45, 53, 53, 46, 54, 54, 47, 0, 48, 0, 47, 49, 0, 50, 50, 0, 51 };
 
         int neighbor_count = 0;
         for( int intersection = 1; intersection < 55; intersection++)
         {
-            int[] nieghbors_to_add =
+            int[] neighbors_to_add =
             {
                 neighbors[neighbor_count],
                 neighbors[neighbor_count + 1],
