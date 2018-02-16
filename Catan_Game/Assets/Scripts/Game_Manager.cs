@@ -18,8 +18,11 @@ public class Game_Manager : MonoBehaviour
     Intersection[] intersections = Create_Intersections();
     int[,] tiles = Create_Tile_List();
 
-    // for future reference, order of the tokens
-    // 5 2 6 3 8 10 9 12 11 4 8 10 9 4 5 6 3 11
+    // dictionary that holds what intersection gets what yeild for a roll
+    // the key is the roll value while the arraylist will hold a touple that contains
+    // the intersection id and the yield
+    private Dictionary<int, ArrayList> roll_yeilds = new Dictionary<int, ArrayList>();
+    
 
     // Use this for initialization
     void Start()
@@ -38,6 +41,11 @@ public class Game_Manager : MonoBehaviour
             Console.Write(tiles[i, 0]);
             Console.Write(", ");
             Console.Write(tiles[i, 1] + "\n");
+        }
+
+        for (int i = 2; i < 13; i++)
+        {
+            roll_yeilds.Add(i, new ArrayList());
         }
 
     }
@@ -139,6 +147,105 @@ public class Game_Manager : MonoBehaviour
         }
         
         return new_intersections;
+    }
+
+    // Goes through each tile and intersection and inserts the yield for each intersection
+    private void Add_Intersection_Yeilds()
+    {
+
+        // for every dice roll
+        for(int roll = 2; roll < 13; roll++)
+        {
+            // for every tile
+            for (int tile = 0; tile < tiles.Length; tile++)
+            {
+                int token = tiles[tile, 0];
+                int yield = tiles[tile, 1];
+                // if the tile's token is the roll
+                if (token == roll)
+                {
+                    Add_Yeild_To_Dictionary(roll, tile, yield);
+                }
+            }
+
+        }
+    }
+
+    private void Add_Yeild_To_Dictionary(int roll, int tile, int yield)
+    {
+        // list of the tiles that a given intersection is connected to
+        // first index is the intersection, the second will be a list of 3 ints for the 3
+        // tiles it is connected to. 0 represents a coast
+        int[,] tiles_connected_to_intersection =
+        {
+            { -1, 0, -1 },
+            { -1, 1, -1 },
+            { -1, 2, -1 },
+            { -1, -1, 0 },
+            { 0, -1, 1 },
+            { 1, -1, 2 },
+            { 2, -1, -1 },
+            { -1, 11, 0 },
+            { 0, 12, 1 },
+            { 1, 13, 2 },
+            { 2, 3, -1 },
+            { -1, -1, 11 },
+            { 11, 0, 12 },
+            { 12, 1, 13 },
+            { 13, 2, 3 },
+            { 3, -1, -1 },
+            { -1, 10, 11 },
+            { 11, 17, 12 },
+            { 12, 18, 13 },
+            { 13, 14, 3 },
+            { 3, 4, -1 },
+            { -1, -1, 10 },
+            { 10, 11, 17 },
+            { 17, 12, 18 },
+            { 18, 13, 14 },
+            { 14, 3, 4 },
+            { 4, -1, -1 },
+            { -1, -1, 10 },
+            { 10, 9, 17  },
+            { 17, 16, 18 },
+            { 18, 15, 14 },
+            { 14, 5, 4 },
+            { -1, -1, 4 },
+            { -1, 10, 9 },
+            { 9, 17, 16 },
+            { 16, 18, 15 },
+            { 15, 14, 5 },
+            { 5, 4, -1 },
+            { -1, -1, 9 },
+            { 9, 8, 16 },
+            { 16, 7, 15 },
+            { 15, 6, 5 },
+            { -1, -1, 5 },
+            { -1, 9, 8 },
+            { 8, 16, 7 },
+            { 7, 15, 6 },
+            { 6, 5, -1 },
+            { -1, -1, 8 },
+            { 8, -1, 7 },
+            { 7, -1, 6 },
+            { 6, -1, -1 },
+            { -1, -1, 5 },
+            { -1, -1, 7 },
+            { -1, -1, 6 }
+        };
+
+        for(int i = 0; i < tiles_connected_to_intersection.Length; i ++)
+        {
+            for(int j = 0; j < 3; j++)
+            {
+                if(tile == tiles_connected_to_intersection[i, j])
+                {
+                    int[] roll_yeild = { i, yield };
+                    roll_yeilds[roll].Add(roll_yeild);
+                }
+            }
+        }
+
     }
 
     static private int[] Randomize(int[] given_array)
