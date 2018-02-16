@@ -55,7 +55,7 @@ public class Game_Manager : MonoBehaviour
         // List of possible yields
         int[] yields = { wheat, wheat, wheat, wheat, log, log, log, log, brick, brick, brick, stone, stone, stone, wool, wool, wool, wool, desert};
         // Make it random so we can insert it into the board
-        yields = randomize(yields);
+        yields = Randomize(yields);
 
         // 19 tiles, first column is the dice roll token it has, second is its yield
         int[,] tiles = new int[19, 2];
@@ -63,7 +63,9 @@ public class Game_Manager : MonoBehaviour
         int j = 0;
         for(int i = 0; i < 19; i++)
         {
+            // place a yield in each tile
             tiles[i, 1] = yields[i];
+            // if the yield isn't desert then add a token to it
             if(yields[i] != 6)
             {
                 tiles[i, 0] = tokens[j];
@@ -139,7 +141,7 @@ public class Game_Manager : MonoBehaviour
         return new_intersections;
     }
 
-    static private int[] randomize(int[] given_array)
+    static private int[] Randomize(int[] given_array)
     {
         System.Random rng = new System.Random();
         int n = given_array.Length;
