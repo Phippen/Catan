@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Intersection : MonoBehaviour {
+public class Intersection {
 
     // Every intersecion is given a numberical intersection
     private int id;
